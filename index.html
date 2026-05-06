@@ -3,219 +3,705 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>mPresenter: An Agentic Framework for Generating Multilingual Presentation Videos from Scientific Papers</title>
-  <meta name="description" content="Project page for mPresenter: An Agentic Framework for Generating Multilingual Presentation Videos from Scientific Papers." />
+  <title>mPresenter: Multilingual Presentation Videos from Scientific Papers</title>
+  <meta
+    name="description"
+    content="mPresenter is an agentic multilingual framework for turning scientific papers into presentation videos. Accepted to Findings of ACL 2026."
+  />
   <style>
     :root {
-      --bg: #f7f8fb;
-      --card: #ffffff;
-      --text: #1f2937;
-      --muted: #6b7280;
-      --accent: #1d4ed8;
-      --border: #e5e7eb;
-      --shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+      --page: #f6f7f9;
+      --surface: #ffffff;
+      --ink: #16202a;
+      --muted: #5f6b7a;
+      --line: #d9e0ea;
+      --blue: #2457d6;
+      --blue-dark: #183c99;
+      --green: #0f766e;
+      --coral: #b54821;
+      --amber: #8a5a00;
+      --shadow: 0 14px 36px rgba(22, 32, 42, 0.08);
     }
 
     * {
       box-sizing: border-box;
     }
 
-    body {
-      margin: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      line-height: 1.65;
+    html {
+      scroll-behavior: smooth;
     }
 
-    .container {
-      max-width: 980px;
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--page);
+      color: var(--ink);
+      line-height: 1.62;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    img,
+    video {
+      display: block;
+      width: 100%;
+      max-width: 100%;
+    }
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      border-bottom: 1px solid rgba(217, 224, 234, 0.85);
+      background: rgba(246, 247, 249, 0.92);
+      backdrop-filter: blur(14px);
+    }
+
+    .nav {
+      width: min(1120px, calc(100% - 40px));
       margin: 0 auto;
-      padding: 48px 20px 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      min-height: 64px;
+    }
+
+    .brand {
+      font-weight: 750;
+      font-size: 1rem;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .nav-links a {
+      padding: 8px 10px;
+      border-radius: 8px;
+      color: var(--muted);
+      font-size: 0.94rem;
+      font-weight: 650;
+      text-decoration: none;
+    }
+
+    .nav-links a:hover {
+      color: var(--ink);
+      background: #eef2f7;
+    }
+
+    main {
+      overflow: hidden;
+    }
+
+    .wrap {
+      width: min(1120px, calc(100% - 40px));
+      margin: 0 auto;
     }
 
     .hero {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 24px;
-      padding: 40px 32px;
-      box-shadow: var(--shadow);
+      padding: 72px 0 42px;
+      background: var(--surface);
+      border-bottom: 1px solid var(--line);
     }
 
-    .badge {
-      display: inline-block;
-      padding: 6px 12px;
-      border-radius: 999px;
-      background: #dbeafe;
-      color: var(--accent);
-      font-size: 0.9rem;
-      font-weight: 600;
-      margin-bottom: 18px;
+    .hero-layout {
+      width: min(1280px, calc(100% - 40px));
+    }
+
+    .venue {
+      display: inline-flex;
+      align-items: center;
+      min-height: 32px;
+      padding: 5px 12px;
+      border: 1px solid rgba(15, 118, 110, 0.24);
+      border-radius: 8px;
+      background: rgba(15, 118, 110, 0.09);
+      color: var(--green);
+      font-size: 0.92rem;
+      font-weight: 750;
+    }
+
+    h1,
+    h2,
+    h3 {
+      margin: 0;
+      line-height: 1.14;
+      letter-spacing: 0;
     }
 
     h1 {
-      margin: 0;
-      font-size: clamp(2rem, 4vw, 3rem);
-      line-height: 1.2;
-      letter-spacing: -0.02em;
+      margin-top: 18px;
+      max-width: 1180px;
+      font-size: 3.1rem;
+      font-weight: 800;
+    }
+
+    .small-caps {
+      font-variant: small-caps;
+    }
+
+    .subtitle {
+      margin-top: 18px;
+      max-width: 1080px;
+      color: var(--muted);
+      font-size: 1.1rem;
     }
 
     .authors {
-      margin-top: 20px;
-      font-size: 1.06rem;
+      margin-top: 22px;
+      font-size: 1rem;
     }
 
     .authors strong {
-      font-weight: 600;
+      font-weight: 720;
     }
 
-    .affiliations {
-      margin-top: 14px;
+    .affiliations,
+    .emails {
+      margin-top: 8px;
       color: var(--muted);
-      font-size: 0.98rem;
+      font-size: 0.95rem;
     }
 
     .emails {
-      margin-top: 12px;
-      color: var(--muted);
-      font-size: 0.95rem;
-      word-break: break-word;
+      overflow-wrap: anywhere;
     }
 
-    .links {
+    .actions {
       display: flex;
       flex-wrap: wrap;
-      gap: 12px;
-      margin-top: 28px;
+      gap: 10px;
+      margin-top: 26px;
     }
 
     .button {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      padding: 10px 16px;
-      border-radius: 12px;
+      min-height: 42px;
+      padding: 9px 15px;
+      border-radius: 8px;
+      border: 1px solid var(--line);
+      background: var(--surface);
+      color: var(--ink);
       text-decoration: none;
-      font-weight: 600;
-      border: 1px solid var(--border);
-      color: var(--text);
-      background: #fff;
+      font-weight: 750;
       transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
     }
 
     .button:hover {
       transform: translateY(-1px);
-      border-color: #cbd5e1;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+      border-color: #b8c3d3;
+      box-shadow: 0 10px 22px rgba(22, 32, 42, 0.08);
     }
 
     .button.primary {
-      background: var(--accent);
-      color: #fff;
-      border-color: var(--accent);
+      background: var(--blue);
+      border-color: var(--blue);
+      color: #ffffff;
+    }
+
+    .button.primary:hover {
+      border-color: var(--blue-dark);
+      background: var(--blue-dark);
     }
 
     .section {
-      margin-top: 28px;
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 24px;
-      padding: 28px 32px;
-      box-shadow: var(--shadow);
+      padding: 54px 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .section.surface {
+      background: var(--surface);
+    }
+
+    .section-heading {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 24px;
+      margin-bottom: 24px;
     }
 
     h2 {
-      margin-top: 0;
-      margin-bottom: 12px;
-      font-size: 1.35rem;
-      letter-spacing: -0.01em;
+      font-size: 2rem;
+      font-weight: 800;
     }
 
-    p {
+    .section-kicker {
+      margin: 0 0 8px;
+      color: var(--coral);
+      font-size: 0.88rem;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+
+    .section-lede {
+      max-width: 720px;
+      margin: 10px 0 0;
+      color: var(--muted);
+      font-size: 1.04rem;
+    }
+
+    .abstract {
+      max-width: 940px;
       margin: 0;
+      font-size: 1.05rem;
+    }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 24px;
+    }
+
+    .feature {
+      min-height: 188px;
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--surface);
+      box-shadow: 0 8px 22px rgba(22, 32, 42, 0.05);
+    }
+
+    .feature h3 {
+      font-size: 1rem;
+      font-weight: 800;
+    }
+
+    .feature p {
+      margin: 10px 0 0;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .media-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .demo {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      overflow: hidden;
+      background: var(--surface);
+      box-shadow: 0 10px 26px rgba(22, 32, 42, 0.07);
+    }
+
+    .demo video {
+      aspect-ratio: 16 / 9;
+      background: #111827;
+    }
+
+    .demo-caption {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      min-height: 54px;
+      padding: 12px 14px;
+      border-top: 1px solid var(--line);
+      font-weight: 750;
+    }
+
+    .demo-caption a {
+      color: var(--blue);
+      font-size: 0.92rem;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    .demo-caption a:hover {
+      text-decoration: underline;
+    }
+
+    .figure {
+      margin: 0;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--surface);
+      box-shadow: 0 10px 26px rgba(22, 32, 42, 0.06);
+    }
+
+    .figure img {
+      background: #ffffff;
+    }
+
+    .figure figcaption {
+      padding: 12px 14px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .figure.wide {
+      margin-top: 24px;
+    }
+
+    .benchmark-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(300px, 0.72fr);
+      gap: 18px;
+      align-items: start;
+    }
+
+    .benchmark-copy {
+      padding: 22px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--surface);
+    }
+
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      margin: 18px 0 0;
+    }
+
+    .stat {
+      min-height: 94px;
+      padding: 15px;
+      border-radius: 8px;
+      background: #eef2f7;
+      border: 1px solid #dfe5ee;
+    }
+
+    .stat strong {
+      display: block;
+      color: var(--blue);
+      font-size: 1.45rem;
+      line-height: 1.1;
+    }
+
+    .stat span {
+      display: block;
+      margin-top: 5px;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .results-grid {
+      display: grid;
+      grid-template-columns: minmax(260px, 0.72fr) minmax(0, 1fr);
+      gap: 18px;
+      align-items: start;
+    }
+
+    .citation {
+      margin: 0;
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      overflow-x: auto;
+      background: #101722;
+      color: #ecf2ff;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+      font-size: 0.93rem;
+      line-height: 1.55;
+      white-space: pre;
     }
 
     .footer {
-      margin-top: 22px;
+      padding: 26px 0 38px;
       color: var(--muted);
-      font-size: 0.92rem;
       text-align: center;
+      font-size: 0.92rem;
     }
 
-    @media (max-width: 640px) {
-      .hero, .section {
-        padding: 24px 20px;
-        border-radius: 18px;
+    @media (max-width: 980px) {
+      .benchmark-layout,
+      .results-grid {
+        grid-template-columns: 1fr;
       }
 
-      .container {
-        padding: 24px 14px 48px;
+      .feature-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+    }
+
+    @media (max-width: 720px) {
+      .nav {
+        width: min(100% - 28px, 1120px);
+        align-items: flex-start;
+        flex-direction: column;
+        padding: 12px 0;
+      }
+
+      .nav-links {
+        justify-content: flex-start;
+      }
+
+      .wrap {
+        width: min(100% - 28px, 1120px);
+      }
+
+      .hero {
+        padding-top: 42px;
+      }
+
+      h1 {
+        font-size: 2.15rem;
+      }
+
+      h2 {
+        font-size: 1.55rem;
+      }
+
+      .section {
+        padding: 38px 0;
+      }
+
+      .section-heading {
+        display: block;
+      }
+
+      .feature-grid,
+      .media-grid,
+      .stat-grid {
+        grid-template-columns: 1fr;
       }
     }
   </style>
 </head>
-<body>
-  <main class="container">
+<body id="top">
+  <header class="site-header">
+    <nav class="nav" aria-label="Main navigation">
+      <a class="brand" href="#top"><span class="small-caps">mPresenter</span></a>
+      <div class="nav-links">
+        <a href="#abstract">Abstract</a>
+        <a href="#demos">Demos</a>
+        <a href="#benchmark">mPreBench</a>
+        <a href="#results">Results</a>
+        <a href="#citation">Citation</a>
+      </div>
+    </nav>
+  </header>
+
+  <main>
     <section class="hero">
-      <div class="badge">Project Page</div>
-      <h1><span style="font-variant: small-caps;">mPresenter</span>: An Agentic Framework for Generating Multilingual Presentation Videos from Scientific Papers</h1>
+      <div class="wrap hero-layout">
+        <div>
+          <div class="venue">Accepted to Findings of ACL 2026</div>
+          <h1><span class="small-caps">mPresenter</span>: An Agentic Framework for Generating Multilingual Presentation Videos from Scientific Papers</h1>
+          <p class="subtitle">
+            An end-to-end multilingual Paper2Video framework that turns academic PDFs into narrated presentation videos through multi-agent planning, layout-aware slide generation, and cross-lingual figure interpretation.
+          </p>
 
-      <div class="authors">
-        <strong>Wenhan Han</strong><sup>1</sup>,
-        <strong>Xiao Xiao</strong><sup>2</sup>,
-        <strong>Mykola Pechenizkiy</strong><sup>1</sup>,
-        <strong>Meng Fang</strong><sup>2,1</sup>
-      </div>
+          <div class="authors">
+            <strong>Wenhan Han</strong><sup>1</sup>,
+            <strong>Xiao Xiao</strong><sup>2</sup>,
+            <strong>Mykola Pechenizkiy</strong><sup>1</sup>,
+            <strong>Meng Fang</strong><sup>2,1</sup>
+          </div>
 
-      <div class="affiliations">
-        <div><sup>1</sup> Eindhoven University of Technology</div>
-        <div><sup>2</sup> University of Liverpool</div>
-      </div>
+          <div class="affiliations">
+            <div><sup>1</sup> Eindhoven University of Technology</div>
+            <div><sup>2</sup> University of Liverpool</div>
+          </div>
 
-      <div class="emails">
-        w.han@tue.nl · xiao.xiao@liverpool.ac.uk · m.pechenizkiy@tue.nl · Meng.Fang@liverpool.ac.uk
-      </div>
+          <div class="emails">
+            w.han@tue.nl · xiao.xiao@liverpool.ac.uk · m.pechenizkiy@tue.nl · Meng.Fang@liverpool.ac.uk
+          </div>
 
-      <div class="links">
-        <a class="button primary" href="#abstract">Abstract</a>
-        <a class="button" href="#citation">Citation</a>
-        <a class="button" href="#links">Resources</a>
-      </div>
-    </section>
-
-    <section class="section" id="abstract">
-      <h2>Abstract</h2>
-      <p>
-        Generating presentation videos from scientific papers is challenging due to the need for long-document discourse planning and cross-lingual grounding. Existing Paper2Video systems are largely monolingual and often rely on single-pass pipelines, which can limit the coherence and informativeness of the resulting presentations. We present <span style="font-variant: small-caps;">mPresenter</span>, a multilingual agentic Paper2Video system that decomposes the task into planning, audience-oriented critique, layout-aware slide generation, and multilingual figure interpretation, enabling iterative refinement at the discourse level. To facilitate reproducible evaluation, we also introduce <span style="font-variant: small-caps;">mPreBench</span>, a multilingual benchmark that evaluates presentation videos via question answering as a proxy for effective information transfer. Experimental results indicate that <span style="font-variant: small-caps;">mPresenter</span> improves question-answering accuracy relative to prior systems, while maintaining affordable cost and latency.
-      </p>
-    </section>
-
-    <section class="section" id="links">
-      <h2>Resources</h2>
-      <p>
-        Add your paper PDF, arXiv link, code repository, benchmark, demo video, and slides here when they are ready.
-      </p>
-      <div class="links" style="margin-top: 16px;">
-        <a class="button" href="#">Paper</a>
-        <a class="button" href="#">arXiv</a>
-        <a class="button" href="#">Code</a>
-        <a class="button" href="#">Benchmark</a>
-        <a class="button" href="#">Demo Video</a>
+          <div class="actions">
+            <a class="button primary" href="https://github.com/aialt/mpresenter">Code</a>
+            <a class="button" href="https://github.com/aialt/mpresenter/tree/main/presentbench">Benchmark</a>
+            <a class="button" href="#demos">Demo Videos</a>
+          </div>
+        </div>
       </div>
     </section>
 
-    <section class="section" id="citation">
-      <h2>Citation</h2>
-      <pre style="margin:0; white-space: pre-wrap; word-break: break-word; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 0.93rem; color: #374151;">@article{han2026mpresenter,
-  title={mPresenter: An Agentic Framework for Generating Multilingual Presentation Videos from Scientific Papers},
-  author={Han, Wenhan and Xiao, Xiao and Pechenizkiy, Mykola and Fang, Meng},
-  year={2026}
+    <section class="section surface" id="abstract">
+      <div class="wrap">
+        <p class="section-kicker">Abstract</p>
+        <h2>Multilingual scientific presentations, generated end to end</h2>
+        <p class="section-lede">
+          mPresenter decomposes paper-to-video generation into specialized agentic stages for planning, critique, slide coding, visual inspection, figure interpretation, and video synthesis.
+        </p>
+        <p class="abstract">
+          Generating presentation videos from scientific papers is challenging because systems must reason over long-document discourse, translate dense findings into slide-level narratives, preserve layout readability, and explain visual evidence across languages. Existing Paper2Video systems are largely monolingual and often rely on single-pass generation. mPresenter addresses these limitations with a multi-agent framework that produces Beamer LaTeX slides, visually inspects rendered outputs, augments narration with cross-lingual figure interpretation, and synthesizes final presentation videos. The project also introduces mPreBench, an expert-curated multilingual benchmark for evaluating Effective Information Transfer through question answering.
+        </p>
+      </div>
+    </section>
+
+    <section class="section" id="overview">
+      <div class="wrap">
+        <p class="section-kicker">Framework</p>
+        <h2>From PDF input to presentation video</h2>
+        <p class="section-lede">
+          The pipeline extracts paper assets, plans an outline and talk script, refines slides through compiler and readability feedback, interprets figures across languages, and synthesizes narrated video.
+        </p>
+
+        <figure class="figure wide">
+          <img src="assets/Figure_2.png" alt="Overview of the mPresenter agentic pipeline" />
+          <figcaption>mPresenter orchestrates Planner, Reviewer, Coder, and Interpreter agents to produce coherent multilingual presentation videos.</figcaption>
+        </figure>
+
+        <div class="feature-grid" aria-label="mPresenter features">
+          <article class="feature">
+            <h3>Multi-agent collaboration</h3>
+            <p>Planner, Reviewer, Coder, and Interpreter agents coordinate outline design, critique, slide creation, and visual explanation.</p>
+          </article>
+          <article class="feature">
+            <h3>Cross-lingual interpretation</h3>
+            <p>The Interpreter Agent analyzes figures and explains visual elements that remain in the source language.</p>
+          </article>
+          <article class="feature">
+            <h3>True-to-layout generation</h3>
+            <p>Executable Beamer LaTeX is compiled and visually inspected to improve readability and slide fidelity.</p>
+          </article>
+          <article class="feature">
+            <h3>High information density</h3>
+            <p>The system is designed for effective knowledge transfer from scientific papers to presentation videos.</p>
+          </article>
+          <article class="feature">
+            <h3>Cost-effective efficiency</h3>
+            <p>mPresenter keeps token use and latency low while maintaining high-quality video generation.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section surface" id="demos">
+      <div class="wrap">
+        <div class="section-heading">
+          <div>
+            <p class="section-kicker">Demo Videos</p>
+            <h2>Presentation examples</h2>
+          </div>
+          <p class="section-lede">
+            Example outputs in English and Chinese generated from scientific papers.
+          </p>
+        </div>
+
+        <div class="media-grid">
+          <article class="demo">
+            <video controls preload="metadata" playsinline src="https://github.com/user-attachments/assets/bbc52e4c-b729-4dd7-8df1-738ba1abab21"></video>
+            <div class="demo-caption">
+              <span>English demo</span>
+              <a href="https://github.com/user-attachments/assets/bbc52e4c-b729-4dd7-8df1-738ba1abab21">Open video</a>
+            </div>
+          </article>
+
+          <article class="demo">
+            <video controls preload="metadata" playsinline src="https://github.com/user-attachments/assets/c7331a7e-c669-4b68-aaaa-106ecef4a28a"></video>
+            <div class="demo-caption">
+              <span>Chinese demo</span>
+              <a href="https://github.com/user-attachments/assets/c7331a7e-c669-4b68-aaaa-106ecef4a28a">Open video</a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="benchmark">
+      <div class="wrap">
+        <p class="section-kicker">Benchmark</p>
+        <h2>mPreBench for Effective Information Transfer</h2>
+        <p class="section-lede">
+          mPreBench is an expert-curated multilingual benchmark for evaluating whether generated presentation videos preserve the scientific information needed by viewers.
+        </p>
+
+        <div class="benchmark-layout">
+          <div class="benchmark-copy">
+            <p>
+              The benchmark covers 40 academic papers: 20 English papers from NeurIPS 2025 and ACL 2025, and 20 Chinese papers from Chinese Journal of Computers. Each paper is paired with expert-written multiple-choice questions translated into English, Chinese, German, Japanese, and Arabic.
+            </p>
+
+            <div class="stat-grid" aria-label="mPreBench statistics">
+              <div class="stat">
+                <strong>40</strong>
+                <span>academic papers</span>
+              </div>
+              <div class="stat">
+                <strong>1,600</strong>
+                <span>multilingual questions</span>
+              </div>
+              <div class="stat">
+                <strong>5</strong>
+                <span>evaluation languages</span>
+              </div>
+            </div>
+
+            <div class="actions">
+              <a class="button primary" href="https://github.com/aialt/mpresenter/tree/main/presentbench">Benchmark</a>
+            </div>
+          </div>
+
+          <figure class="figure">
+            <img src="assets/Figure_3.png" alt="Topic distribution of the mPreBench dataset" />
+            <figcaption>mPreBench spans vision, NLP, graph, security, reinforcement learning, biomedical, and systems topics.</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <section class="section surface" id="results">
+      <div class="wrap">
+        <p class="section-kicker">Results</p>
+        <h2>Quality gains with practical efficiency</h2>
+        <p class="section-lede">
+          Ablations show the contribution of the Interpreter, layout inspection, and Reviewer. Efficiency analysis shows low latency and token consumption compared with baselines.
+        </p>
+
+        <div class="results-grid">
+          <figure class="figure">
+            <img src="assets/Figure_4.png" alt="Ablation results for mPresenter" />
+            <figcaption>Each agentic component contributes to stronger QA accuracy and more wins over ablated variants.</figcaption>
+          </figure>
+
+          <figure class="figure">
+            <img src="assets/Figure_5.png" alt="Latency and token consumption comparison" />
+            <figcaption>mPresenter balances video quality, latency, and API token consumption for scalable generation.</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="resources">
+      <div class="wrap">
+        <p class="section-kicker">Resources</p>
+        <h2>Code and benchmark</h2>
+        <p class="section-lede">
+          The implementation and mPreBench benchmark resources are available on GitHub.
+        </p>
+        <div class="actions">
+          <a class="button primary" href="https://github.com/aialt/mpresenter">Code</a>
+          <a class="button" href="https://github.com/aialt/mpresenter/tree/main/presentbench">Benchmark</a>
+          <a class="button" href="#demos">Demo Videos</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section surface" id="citation">
+      <div class="wrap">
+        <p class="section-kicker">Citation</p>
+        <h2>Reference</h2>
+        <pre class="citation">@inproceedings{han2026mpresenter,
+  title     = {mPresenter: An Agentic Framework for Generating Multilingual Presentation Videos from Scientific Papers},
+  author    = {Han, Wenhan and Xiao, Xiao and Pechenizkiy, Mykola and Fang, Meng},
+  booktitle = {Findings of the Association for Computational Linguistics: ACL 2026},
+  year      = {2026}
 }</pre>
+      </div>
     </section>
-
-    <div class="footer">
-      © 2026 mPresenter Project Page
-    </div>
   </main>
+
+  <footer class="footer">
+    <div class="wrap">© 2026 mPresenter Project Page</div>
+  </footer>
 </body>
 </html>
